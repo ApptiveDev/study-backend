@@ -12,8 +12,14 @@ import lombok.Setter;
 @Entity
 @Table(name="users")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 public class User {
+
+    public User(String email, String name) {
+        this.email = email;
+        this.name = name;
+    }
+
     @Id
     @Column(nullable = false,unique = true)
     private String email;
@@ -21,4 +27,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    public User withName(String newName) {
+        return new User(this.email, newName);
+    }
 }
