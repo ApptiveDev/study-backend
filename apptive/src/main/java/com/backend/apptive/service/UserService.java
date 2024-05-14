@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import com.backend.apptive.domain.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -13,5 +15,14 @@ public class UserService {
 
     public User save(AddUserRequest request) {
         return userRepository.save(request.toEntity());
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
     }
 }
