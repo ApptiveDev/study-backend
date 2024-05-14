@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.backend.apptive.domain.User;
 
@@ -24,8 +25,8 @@ public class UserController {
                 .body(savedUser);
     }
 
-    @GetMapping("/api/users")
-    public ResponseEntity<List<UserResponse>> findAllUsers() {
+    @GetMapping("/api/user")
+    public ResponseEntity<List<UserResponse>> findAllUser() {
         List<UserResponse> user = userService.findAll()
                 .stream()
                 .map(UserResponse::new)
@@ -35,11 +36,20 @@ public class UserController {
                 .body(user);
     }
 
-    @GetMapping("/api/users/{email}")
-    public ResponseEntity<UserResponse> findUsers(@PathVariable String email) {
+    @GetMapping("/api/user/{email}")
+    public ResponseEntity<UserResponse> findUser(@PathVariable String email) {
         User user = userService.findByEmail(email);
 
         return ResponseEntity.ok()
                 .body(new UserResponse(user));
     }
+
+    @DeleteMapping("/api/user/{email}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String email) {
+        userService.deleteByEmail(email);
+
+        return ResponseEntity.ok()
+                .build();
+    }
+
 }
