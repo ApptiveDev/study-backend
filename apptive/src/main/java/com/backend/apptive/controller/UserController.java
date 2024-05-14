@@ -1,6 +1,7 @@
 package com.backend.apptive.controller;
 
 import com.backend.apptive.dto.AddUserRequest;
+import com.backend.apptive.dto.UpdateUserRequest;
 import com.backend.apptive.dto.UserResponse;
 import com.backend.apptive.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -52,4 +53,12 @@ public class UserController {
                 .build();
     }
 
+    @PutMapping("/api/users/{email}")
+    public ResponseEntity<User> updateUser(@PathVariable String email,
+                                             @RequestBody UpdateUserRequest request) {
+        User updateUser = userService.update(email, request);
+
+        return ResponseEntity.ok()
+                .body(updateUser);
+    }
 }
