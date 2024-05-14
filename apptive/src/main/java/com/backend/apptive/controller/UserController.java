@@ -53,7 +53,7 @@ public class UserController {
                 .build();
     }
 
-    @PutMapping("/api/users/{email}")
+    @PutMapping("/api/user/{email}")
     public ResponseEntity<User> updateUser(@PathVariable String email,
                                              @RequestBody UpdateUserRequest request) {
         User updateUser = userService.update(email, request);

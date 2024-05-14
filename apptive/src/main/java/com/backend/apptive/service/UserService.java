@@ -42,6 +42,7 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
         user.update(request.getName());
+
         return user;
     }
 }
