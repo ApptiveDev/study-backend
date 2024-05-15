@@ -24,6 +24,7 @@ public class User {
         this.email = email;
     }
 
+    //updateName 같은 이름사용
     public void update(String name) {
         this.name = name;
     }

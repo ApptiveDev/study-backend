@@ -21,10 +21,12 @@ public class UserService {
         return userRepository.save(request.toEntity());
     }
 
+    // dto로 변경해서 넘겨주기
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
+    // dto로 변경해서 넘겨주기
     public User findByEmail(String email){
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
