@@ -2,6 +2,7 @@ package com.backend.apptive.controller;
 
 import com.backend.apptive.DTO.UserDTO;
 import com.backend.apptive.core.error.UserNotFoundException;
+import com.backend.apptive.domain.User;
 import com.backend.apptive.service.UserSerivce;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,16 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserSerivce userSerivce;
 
-//    @GetMapping("/getdb")
-//    public ResponseEntity<?> getUser(@RequestParam("email") String email) {
-//        try {
-//            UserDTO dto = userSerivce.getUser(email);
-//            return ResponseEntity.ok(dto);
-//        } catch (IllegalArgumentException ex) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: User not found.");
-//        }
-//    }
-    @GetMapping("/getuser")
+    // 계층적으로 설계
+    // @GetMapping("/{email}")
+    // @PathVariable String email
+    //URL Restful 하게 설정하기
+    @GetMapping("/user/")
     public ResponseEntity<?> getUserById(@RequestParam String email) {
         try {
             UserDTO userDTO = userSerivce.getUser(email);
@@ -43,6 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    // flag 사용보다 예외 처리 사용하기 registerUser 함수 속 확인
     public ResponseEntity<String> registerUser(UserDTO userDTO){
         boolean flag = userSerivce.registerUser(userDTO);
         if (flag){
@@ -53,6 +50,7 @@ public class UserController {
         }
     }
 
+    //위와 같이 예처리 url 변경
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteUserByEmail(@RequestParam String email) {
         boolean isDeleted = userSerivce.deleteUserByEmail(email);
@@ -65,6 +63,7 @@ public class UserController {
 
     @PatchMapping("/update")
     public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO) {
+        // 빌더 패턴 사용
         String email = userDTO.getEmail();
         String name = userDTO.getName();
         try{
@@ -73,7 +72,6 @@ public class UserController {
         }catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with email: " + email);
         }
-
     }
 
 }
