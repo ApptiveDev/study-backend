@@ -25,8 +25,8 @@ public class UserDto {
 
     @Builder
     @Getter
-    public static class Response {
-        private String name;
+    public static class DtoList {
+        List<UserDto> userDtos;
 
         public static UserDto.DtoList toDto(List<User> users) {
             List<UserDto> userDtos = users.stream()
