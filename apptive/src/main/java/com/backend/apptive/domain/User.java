@@ -2,6 +2,7 @@ package com.backend.apptive.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,10 +12,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Id
     @Column(name = "email", nullable = false)
     private String email;
 
