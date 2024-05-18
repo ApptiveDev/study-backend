@@ -1,14 +1,11 @@
 package com.backend.apptive.service;
 
-import com.backend.apptive.dto.AddUserRequest;
-import com.backend.apptive.dto.UpdateUserRequest;
+import com.backend.apptive.dto.UserDto;
 import com.backend.apptive.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.backend.apptive.domain.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -17,17 +14,19 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public User save(AddUserRequest request) {
-        return userRepository.save(request.toEntity());
+    public void save(UserDto request) {
+        userRepository.save(request.toEntity());
+        return;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public UserDto.DtoList findAll() {
+        return UserDto.DtoList.toDto(userRepository.findAll());
     }
 
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email)
+    public UserDto findByEmail(String email){
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
+        return UserDto.toDto(user);
     }
 
     @Transactional
@@ -38,11 +37,11 @@ public class UserService {
     }
 
     @Transactional
-    public User update(String email, UpdateUserRequest request){
+    public UserDto update(String email, UserDto request){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
         user.update(request.getName());
 
-        return user;
+        return UserDto.toDto(user);
     }
 }

@@ -1,64 +1,47 @@
 package com.backend.apptive.controller;
 
-import com.backend.apptive.dto.AddUserRequest;
-import com.backend.apptive.dto.UpdateUserRequest;
-import com.backend.apptive.dto.UserResponse;
+import com.backend.apptive.dto.UserDto;
 import com.backend.apptive.service.UserService;
+import com.backend.apptive.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import com.backend.apptive.domain.User;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/api/user")
-    public ResponseEntity<User> addUser(@RequestBody AddUserRequest request) {
-        User savedUser = userService.save(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedUser);
+    @PostMapping
+    public ResponseEntity<?> addUser(@RequestBody UserDto request) {
+        userService.save(request);
+        return ResponseEntity.ok(ApiUtils.success("유저가 생성되었습니다."));
     }
 
-    @GetMapping("/api/user")
-    public ResponseEntity<List<UserResponse>> findAllUser() {
-        List<UserResponse> user = userService.findAll()
-                .stream()
-                .map(UserResponse::new)
-                .toList();
-
+    @GetMapping
+    public ResponseEntity<UserDto.DtoList> findAllUser() {
+        UserDto.DtoList users = userService.findAll();
         return ResponseEntity.ok()
-                .body(user);
+                .body(users);
     }
 
-    @GetMapping("/api/user/{email}")
-    public ResponseEntity<UserResponse> findUser(@PathVariable String email) {
-        User user = userService.findByEmail(email);
-
-        return ResponseEntity.ok()
-                .body(new UserResponse(user));
+    @GetMapping("/{email}")
+    public ResponseEntity<ApiUtils.ApiSuccess<UserDto>> findUser(@PathVariable String email) {
+        UserDto user = userService.findByEmail(email);
+        return ResponseEntity.ok(ApiUtils.success(user));
     }
 
-    @DeleteMapping("/api/user/{email}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String email) {
+    @DeleteMapping("/{email}")
+    public ResponseEntity<?> deleteUser(@PathVariable String email) {
         userService.deleteByEmail(email);
-
-        return ResponseEntity.ok()
-                .build();
+        return ResponseEntity.ok(ApiUtils.success("유저가 삭제되었습니다."));
     }
 
-    @PutMapping("/api/user/{email}")
-    public ResponseEntity<User> updateUser(@PathVariable String email,
-                                             @RequestBody UpdateUserRequest request) {
-        User updateUser = userService.update(email, request);
-
-        return ResponseEntity.ok()
-                .body(updateUser);
+    @PutMapping("/{email}")
+    public ResponseEntity<?> updateUser(@PathVariable String email,
+                                             @RequestBody UserDto request) {
+        UserDto user= userService.update(email, request);
+        return ResponseEntity.ok(ApiUtils.success("이름이 변경되었습니다."));
     }
 }
