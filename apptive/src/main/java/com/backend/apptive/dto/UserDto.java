@@ -29,19 +29,4 @@ public class UserDto {
                 .build();
     }
 
-    @Builder
-    @Getter
-    public static class DtoList {
-        List<UserDto> userDtos;
-
-        public static UserDto.DtoList toDto(List<User> users) {
-            List<UserDto> userDtos = users.stream()
-                    .map(UserDto::toDto)
-                    .collect(Collectors.toList());
-
-            return UserDto.DtoList.builder()
-                    .userDtos(userDtos)
-                    .build();
-        }
-    }
 }

@@ -1,6 +1,5 @@
 package com.backend.apptive.utils;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

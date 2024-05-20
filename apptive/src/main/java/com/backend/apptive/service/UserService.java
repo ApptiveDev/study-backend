@@ -7,6 +7,8 @@ import com.backend.apptive.domain.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -19,8 +21,9 @@ public class UserService {
         return;
     }
 
-    public UserDto.DtoList findAll() {
-        return UserDto.DtoList.toDto(userRepository.findAll());
+    public List<UserDto> findAll() {
+        List<UserDto> users = userRepository.findAll().stream().map(UserDto::toDto).toList();
+        return users;
     }
 
     public UserDto findByEmail(String email){
