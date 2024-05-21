@@ -20,7 +20,7 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "user_email", referencedColumnName = "email")
+    @JoinColumn(name = "userEmail", referencedColumnName = "email")
     private User user;
 
     @Builder
