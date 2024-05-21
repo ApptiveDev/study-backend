@@ -21,7 +21,6 @@ public class UserService {
             throw new RuntimeException("이미 사용중인 이메일 입니다.");
         }
         userRepository.save(request.toEntity());
-        return;
     }
 
     public List<UserDto> findAll() {
