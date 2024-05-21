@@ -47,8 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<ApiUtils.ApiSuccess<String>> updateUser(@PathVariable String email,
-                                             @RequestBody UserDto request) {
+    public ResponseEntity<ApiUtils.ApiSuccess<String>> updateUser(@PathVariable String email, @RequestBody UserDto request) {
         UserDto user= userService.update(email, request);
         return ResponseEntity.ok(ApiUtils.success("이름이 변경되었습니다."));
     }
