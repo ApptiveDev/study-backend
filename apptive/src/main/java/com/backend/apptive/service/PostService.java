@@ -1,11 +1,9 @@
 package com.backend.apptive.service;
 
 import com.backend.apptive.domain.Post;
-import com.backend.apptive.domain.User;
+
 import com.backend.apptive.dto.PostDto;
-import com.backend.apptive.dto.UserDto;
 import com.backend.apptive.repository.PostRepository;
-import com.backend.apptive.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,5 +33,13 @@ public class PostService {
         Post post = postRepository.findByPostId(postId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + postId));
         return PostDto.DetailResponse.toDto(post);
+    }
+
+    public List<PostDto.Response> findByUserEmail(String userEmail) {
+        List<PostDto.Response> posts = postRepository.findByUserEmail(userEmail)
+                .stream()
+                .map(PostDto.Response::toDto)
+                .toList();
+        return posts;
     }
 }

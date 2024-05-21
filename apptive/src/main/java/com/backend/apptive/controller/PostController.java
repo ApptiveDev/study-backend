@@ -23,12 +23,13 @@ public class PostController {
             postService.create(request);
             return ResponseEntity.ok(ApiUtils.success("게시물이 생성되었습니다."));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiUtils.fail(HttpStatus.NOT_FOUND.value(), e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiUtils.fail(HttpStatus.NOT_FOUND.value(), e.getMessage()));
         }
     }
 
     @GetMapping
-    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllPost() {
+    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllPosts() {
         List<PostDto.Response> posts = postService.findAll();
         return ResponseEntity.ok()
                 .body(ApiUtils.success(posts));
@@ -37,16 +38,14 @@ public class PostController {
     @GetMapping("/{postID}")
     public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long postId) {
         PostDto.DetailResponse post = postService.findByPostId(postId);
-        return ResponseEntity.ok(ApiUtils.success(post));
+        return ResponseEntity.ok()
+                .body(ApiUtils.success(post));
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<ApiUtils.ApiSuccess<UserDto>> findUser(@PathVariable String email) {
-        UserDto user = userService.findByEmail(email);
-        return ResponseEntity.ok(ApiUtils.success(user));
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findUserPosts(@PathVariable String userEmail) {
+        List<PostDto.Response> posts = postService.findByUserEmail(userEmail);
+        return ResponseEntity.ok()
+                .body(ApiUtils.success(posts));
     }
-
-
-
-
 }
