@@ -1,5 +1,6 @@
 package com.backend.apptive.service;
 
+import com.backend.apptive.domain.Post;
 import com.backend.apptive.domain.User;
 import com.backend.apptive.dto.PostDto;
 import com.backend.apptive.dto.UserDto;
@@ -28,5 +29,11 @@ public class PostService {
                 .map(PostDto.Response::toDto)
                 .toList();
         return posts;
+    }
+
+    public PostDto.DetailResponse findByPostId(Long postId) {
+        Post post = postRepository.findByPostId(postId)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + postId));
+        return PostDto.DetailResponse.toDto(post);
     }
 }

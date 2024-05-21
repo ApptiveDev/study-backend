@@ -28,16 +28,16 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllUser() {
+    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllPost() {
         List<PostDto.Response> posts = postService.findAll();
         return ResponseEntity.ok()
                 .body(ApiUtils.success(posts));
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<ApiUtils.ApiSuccess<UserDto>> findUser(@PathVariable String email) {
-        UserDto user = userService.findByEmail(email);
-        return ResponseEntity.ok(ApiUtils.success(user));
+    @GetMapping("/{postID}")
+    public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long postId) {
+        PostDto.DetailResponse post = postService.findByPostId(postId);
+        return ResponseEntity.ok(ApiUtils.success(post));
     }
 
     @GetMapping("/{email}")
