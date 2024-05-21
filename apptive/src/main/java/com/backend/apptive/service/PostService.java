@@ -15,7 +15,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void create(PostDto request) {
+    public void create(PostDto.Request request) {
         postRepository.save(request.toEntity());
     }
 }

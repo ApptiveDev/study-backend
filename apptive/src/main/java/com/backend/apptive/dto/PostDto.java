@@ -8,12 +8,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Builder
-@Getter
 public class PostDto {
-    private String userEmail;
-    private String title;
-    private String content;
+    @Builder
+    @Getter
+    public static class Request{
+        private String userEmail;
+        private String title;
+        private String content;
+
+        private UserRepository userRepository;
+
+        public Post toEntity() {
+            User user = userRepository.findByEmail(userEmail)
+                    .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
+
+            return Post.builder()
+                    .user(user)
+                    .title(title)
+                    .content(content)
+                    .build();
+        }
+    }
 
     private UserRepository userRepository;
 
@@ -25,14 +40,4 @@ public class PostDto {
                 .build();
     }*/
 
-    public Post toEntity() {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
-
-        return Post.builder()
-                .user(user)
-                .title(title)
-                .content(content)
-                .build();
-    }
 }
