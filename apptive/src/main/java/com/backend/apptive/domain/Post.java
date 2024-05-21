@@ -1,6 +1,7 @@
 package com.backend.apptive.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,11 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_email", referencedColumnName = "email")
     private User user;
+
+    @Builder
+    public Post(User user, String title, String content) {
+        this.user = user;
+        this.title = title;
+        this.content = content;
+    }
 }
