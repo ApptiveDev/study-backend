@@ -5,6 +5,7 @@ import com.backend.apptive.service.UserService;
 
 import com.backend.apptive.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +18,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<ApiUtils.ApiSuccess<String>> addUser(@RequestBody UserDto request) {
-        userService.save(request);
-        return ResponseEntity.ok(ApiUtils.success("유저가 생성되었습니다."));
+    public ResponseEntity<?> addUser(@RequestBody UserDto request) {
+        try {
+            userService.save(request);
+            return ResponseEntity.ok(ApiUtils.success("유저가 생성되었습니다."));
+        } catch (RuntimeException e) { // 이메일 중복 처리 추가
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiUtils.fail(HttpStatus.CONFLICT.value(), e.getMessage()));
+        }
     }
 
     @GetMapping

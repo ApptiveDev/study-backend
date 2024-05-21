@@ -16,7 +16,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void save(UserDto request) {
+    public void save(UserDto request) throws RuntimeException {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("이미 사용중인 이메일 입니다.");
+        }
         userRepository.save(request.toEntity());
         return;
     }
