@@ -19,7 +19,7 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Builder
@@ -28,7 +28,7 @@ public class User {
         this.email = email;
     }
 
-    //updateName 같은 이름사용
+    //updateName 같은 이름 사용
     public void update(String name) {
         this.name = name;
     }
