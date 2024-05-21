@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Post {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long postId;
 
     @Column(name = "title", nullable = false)
     private String title;

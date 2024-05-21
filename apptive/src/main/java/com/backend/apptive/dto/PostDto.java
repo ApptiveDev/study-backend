@@ -30,14 +30,32 @@ public class PostDto {
         }
     }
 
-    private UserRepository userRepository;
+    @Builder
+    @Getter
+    public static class Response {
+        private Long postId;
+        private String title;
 
-    /*public static PostDto toDto(Post post) {
-        return PostDto.builder()
-                .user(user)
+        public static PostDto.Response toDto(Post post) {
+        return Response.builder()
+                .postId(post.getPostId())
                 .title(post.getTitle())
-                .content(post.getContent())
                 .build();
-    }*/
+        }
+    }
+
+    @Builder
+    @Getter
+    public static class DetailResponse {
+        private String title;
+        private String content;
+
+        public static PostDto.DetailResponse toDto(Post post) {
+            return DetailResponse.builder()
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .build();
+        }
+    }
 
 }

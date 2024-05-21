@@ -8,10 +8,9 @@ import com.backend.apptive.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +26,27 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiUtils.fail(HttpStatus.NOT_FOUND.value(), e.getMessage()));
         }
     }
+
+    @GetMapping
+    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllUser() {
+        List<PostDto.Response> posts = postService.findAll();
+        return ResponseEntity.ok()
+                .body(ApiUtils.success(posts));
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<ApiUtils.ApiSuccess<UserDto>> findUser(@PathVariable String email) {
+        UserDto user = userService.findByEmail(email);
+        return ResponseEntity.ok(ApiUtils.success(user));
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<ApiUtils.ApiSuccess<UserDto>> findUser(@PathVariable String email) {
+        UserDto user = userService.findByEmail(email);
+        return ResponseEntity.ok(ApiUtils.success(user));
+    }
+
+
 
 
 }
