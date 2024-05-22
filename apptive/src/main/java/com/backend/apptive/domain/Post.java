@@ -22,7 +22,7 @@ public class Post {
     // 지연 로딩 설정
     @ManyToOne(fetch = FetchType.LAZY)
     // 3 JoinColumn 변경 완료
-    @JoinColumn(name = "user-id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
