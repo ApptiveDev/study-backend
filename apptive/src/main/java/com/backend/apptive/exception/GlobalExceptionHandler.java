@@ -14,9 +14,15 @@ public class GlobalExceptionHandler {
                 .body(ApiUtils.fail(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiUtils.ApiFail> handleException(Exception ex) {
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ApiUtils.ApiFail> handleDuplicateEmailException(DuplicateEmailException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiUtils.fail(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiUtils.ApiFail> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiUtils.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error"));
+                .body(ApiUtils.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error: " + ex.getMessage()));
     }
 }
