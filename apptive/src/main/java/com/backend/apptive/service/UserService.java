@@ -18,25 +18,25 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void save(UserDto request) throws RuntimeException {
+    public void save(UserDto.Request request) throws RuntimeException {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("이미 사용중인 이메일 입니다.");
         }
         userRepository.save(request.toEntity());
     }
 
-    public List<UserDto> findAll() {
-        List<UserDto> users = userRepository.findAll()
+    public List<UserDto.Response> findAll() {
+        List<UserDto.Response> users = userRepository.findAll()
                 .stream()
-                .map(UserDto::toDto)
+                .map(UserDto.Response::toDto)
                 .toList();
         return users;
     }
 
-    public UserDto findByEmail(String email){
+    public UserDto.Response findByEmail(String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
-        return UserDto.toDto(user);
+        return UserDto.Response.toDto(user);
     }
 
     @Transactional
@@ -47,11 +47,9 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto update(String email, UserDto request){
+    public void update(String email, UserDto.Request request){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + email));
         user.update(request.getName());
-
-        return UserDto.toDto(user);
     }
 }

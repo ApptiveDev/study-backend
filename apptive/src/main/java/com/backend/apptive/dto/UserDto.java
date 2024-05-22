@@ -6,27 +6,29 @@ import lombok.Getter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@Builder
-@Getter
 public class UserDto {
+    @Builder
+    @Getter
+    public static class Request {
+        private String name;
+        private String email;
 
-    private String name;
-    private String email;
-
-
-    public static UserDto toDto(User user) {
-        return UserDto.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .build();
+        public User toEntity() {
+            return User.builder()
+                    .name(name)
+                    .email(email)
+                    .build();
+        }
     }
+    @Builder
+    @Getter
+    public static class Response {
+        private String name;
 
-    public User toEntity() {
-        return User.builder()
-                .name(name)
-                .email(email)
-                .build();
+        public static UserDto.Response toDto(User user) {
+            return Response.builder()
+                    .name(user.getName())
+                    .build();
+        }
     }
-
 }
