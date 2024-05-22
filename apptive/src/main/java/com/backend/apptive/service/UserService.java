@@ -4,6 +4,7 @@ import com.backend.apptive.dto.UserDto;
 import com.backend.apptive.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.backend.apptive.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class UserService {
+    @Autowired
     private final UserRepository userRepository;
 
     @Transactional

@@ -4,7 +4,9 @@ import com.backend.apptive.domain.Post;
 
 import com.backend.apptive.dto.PostDto;
 import com.backend.apptive.repository.PostRepository;
+import com.backend.apptive.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +16,14 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class PostService {
+    @Autowired
     private final PostRepository postRepository;
+    @Autowired
+    private  final UserRepository userRepository;
 
     @Transactional
     public void create(PostDto.Request request) {
-        postRepository.save(request.toEntity());
+        postRepository.save(request.toEntity(userRepository));
     }
 
     public List<PostDto.Response> findAll() {

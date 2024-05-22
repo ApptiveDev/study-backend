@@ -16,9 +16,7 @@ public class PostDto {
         private String title;
         private String content;
 
-        private UserRepository userRepository;
-
-        public Post toEntity() {
+        public Post toEntity(UserRepository userRepository) {
             User user = userRepository.findByEmail(userEmail)
                     .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
 
