@@ -42,9 +42,9 @@ public class PostController {
                 .body(ApiUtils.success(post));
     }
 
-    @GetMapping("/{userEmail}")
-    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findUserPosts(@PathVariable String userEmail) {
-        List<PostDto.Response> posts = postService.findByUserEmail(userEmail);
+    @GetMapping("/user/{email}")
+    public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findUserPosts(@PathVariable String email) {
+        List<PostDto.Response> posts = postService.findByUserEmail(email);
         return ResponseEntity.ok()
                 .body(ApiUtils.success(posts));
     }

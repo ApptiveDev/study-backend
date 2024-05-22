@@ -2,7 +2,9 @@ package com.backend.apptive.service;
 
 import com.backend.apptive.domain.Post;
 
+import com.backend.apptive.domain.User;
 import com.backend.apptive.dto.PostDto;
+import com.backend.apptive.exception.ResourceNotFoundException;
 import com.backend.apptive.repository.PostRepository;
 import com.backend.apptive.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +43,11 @@ public class PostService {
     }
 
     public List<PostDto.Response> findByUserEmail(String userEmail) {
-        List<PostDto.Response> posts = postRepository.findByUserEmail(userEmail)
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
+        return postRepository.findByUserEmail(user.getEmail())
                 .stream()
                 .map(PostDto.Response::toDto)
                 .toList();
-        return posts;
     }
 }
