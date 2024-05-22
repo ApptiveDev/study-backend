@@ -33,13 +33,13 @@ public class PostDto {
     @Builder
     @Getter
     public static class Response {
-        private Long postId;
         private String title;
+        private Long postId;
 
         public static PostDto.Response toDto(Post post) {
         return Response.builder()
-                .postId(post.getPostId())
                 .title(post.getTitle())
+                .postId(post.getPostId())
                 .build();
         }
     }
@@ -57,5 +57,4 @@ public class PostDto {
                     .build();
         }
     }
-
 }
