@@ -15,16 +15,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
+
     private final UserService userService;
 
     @PostMapping
     public ResponseEntity<?> addUser(@RequestBody UserDto.Request request) {
-        try {
-            userService.save(request);
-            return ResponseEntity.ok(ApiUtils.success("유저가 생성되었습니다."));
-        } catch (RuntimeException e) { // 이메일 중복 처리 추가
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiUtils.fail(HttpStatus.CONFLICT.value(), e.getMessage()));
-        }
+        userService.save(request);
+        return ResponseEntity.ok(ApiUtils.success("유저가 생성되었습니다."));
     }
 
     @GetMapping

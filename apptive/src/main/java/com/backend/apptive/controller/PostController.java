@@ -14,8 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/post")
 public class PostController {
+
     private final PostService postService;
-    private final ApiUtils apiUtils;
 
     @PostMapping
     public ResponseEntity<ApiUtils.ApiSuccess<String>> createPost(@RequestBody PostDto.Request request) {

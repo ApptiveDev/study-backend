@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -21,8 +23,9 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    // new ArrayList 해주기
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     @Builder
     public User(String name, String email) {

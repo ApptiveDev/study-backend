@@ -2,12 +2,9 @@ package com.backend.apptive.dto;
 
 import com.backend.apptive.domain.Post;
 import com.backend.apptive.domain.User;
-import com.backend.apptive.exception.ResourceNotFoundException;
 import com.backend.apptive.repository.UserRepository;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class PostDto {
     @Builder
@@ -17,6 +14,7 @@ public class PostDto {
         private String title;
         private String content;
 
+        //2
         public Post toEntity(UserRepository userRepository) {
             User user = userRepository.findByEmail(userEmail)
                     .orElseThrow(() -> new
