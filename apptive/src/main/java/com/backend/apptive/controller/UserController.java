@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(ApiUtils.success("유저가 삭제되었습니다."));
     }
 
-    @PutMapping("user/{email}")
+    @PatchMapping("user/{email}")
     public ResponseEntity<ApiUtils.ApiSuccess<String>> updateUser(@PathVariable String email, @RequestBody UserDto.Request request) {
         userService.update(email, request);
         return ResponseEntity.ok(ApiUtils.success("이름이 변경되었습니다."));
