@@ -35,7 +35,7 @@ public class PostController {
                 .body(ApiUtils.success(posts));
     }
 
-    @GetMapping("/{postID}")
+    @GetMapping("/{postId}")
     public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long postId) {
         PostDto.DetailResponse post = postService.findByPostId(postId);
         return ResponseEntity.ok()
