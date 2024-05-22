@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor // 생성자 주입
 @Service
 @Transactional(readOnly = true)
 public class PostService {
@@ -21,10 +21,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    //1
+    //1 - 수정 완료
     @Transactional
     public void create(PostDto.Request request) {
-        postRepository.save(request.toEntity(userRepository));
+        User user = userRepository.findByEmail(request.getUserEmail())
+                .orElseThrow(() -> new
+                        EntityNotFoundException("유저를 찾을 수 없습니다: " + request.getUserEmail()));
+        postRepository.save(request.toEntity(user));
     }
 
     public List<PostDto.Response> findAll() {

@@ -23,7 +23,7 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    // new ArrayList 해주기
+    // new ArrayList 해주기 ** 프록시 문제 관련
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 

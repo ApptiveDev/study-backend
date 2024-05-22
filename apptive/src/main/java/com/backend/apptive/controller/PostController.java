@@ -12,35 +12,31 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
 public class PostController {
 
     private final PostService postService;
 
-    @PostMapping
+    @PostMapping("/post")
     public ResponseEntity<ApiUtils.ApiSuccess<String>> createPost(@RequestBody PostDto.Request request) {
         postService.create(request);
         return ResponseEntity.ok(ApiUtils.success("게시물이 생성되었습니다."));
     }
 
-    @GetMapping
+    @GetMapping("/posts")
     public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllPosts() {
-        List<PostDto.Response> posts = postService.findAll();
         return ResponseEntity.ok()
-                .body(ApiUtils.success(posts));
+                .body(ApiUtils.success(postService.findAll()));
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("post/{postId}")
     public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long postId) {
-        PostDto.DetailResponse post = postService.findByPostId(postId);
         return ResponseEntity.ok()
-                .body(ApiUtils.success(post));
+                .body(ApiUtils.success(postService.findByPostId(postId)));
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("posts/users/{email}")
     public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findUserPosts(@PathVariable String email) {
-        List<PostDto.Response> posts = postService.findByUserEmail(email);
         return ResponseEntity.ok()
-                .body(ApiUtils.success(posts));
+                .body(ApiUtils.success(postService.findByUserEmail(email)));
     }
 }

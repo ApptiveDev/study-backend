@@ -3,6 +3,7 @@ package com.backend.apptive.dto;
 import com.backend.apptive.domain.Post;
 import com.backend.apptive.domain.User;
 import com.backend.apptive.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,11 +16,7 @@ public class PostDto {
         private String content;
 
         //2
-        public Post toEntity(UserRepository userRepository) {
-            User user = userRepository.findByEmail(userEmail)
-                    .orElseThrow(() -> new
-                            ResourceNotFoundException("유저를 찾을 수 없습니다: " + userEmail));
-
+        public Post toEntity(User user) {
             return Post.builder()
                     .user(user)
                     .title(title)
@@ -32,12 +29,12 @@ public class PostDto {
     @Getter
     public static class Response {
         private String title;
-        private Long postId;
+        private Long id;
 
         public static PostDto.Response toDto(Post post) {
         return Response.builder()
                 .title(post.getTitle())
-                .postId(post.getPostId())
+                .id(post.getId())
                 .build();
         }
     }

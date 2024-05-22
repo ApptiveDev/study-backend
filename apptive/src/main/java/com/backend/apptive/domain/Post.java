@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Post {
     @Id
     @GeneratedValue
-    private Long postId;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -21,8 +21,8 @@ public class Post {
 
     // 지연 로딩 설정
     @ManyToOne(fetch = FetchType.LAZY)
-    // 3 JoinColumn 변경
-    @JoinColumn(name = "userEmail", referencedColumnName = "email")
+    // 3 JoinColumn 변경 **
+    @JoinColumn
     private User user;
 
     @Builder
@@ -32,7 +32,7 @@ public class Post {
         this.content = content;
     }
 
-    // 연관관계 매핑 편의 메소드
+    // 연관관계 매핑 편의 메소드 **
     public void makeRelation(User user){
         this.user = user;
         user.getPosts().add(this);
