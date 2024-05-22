@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor // 생성자 주입
 @Service
@@ -46,13 +47,16 @@ public class PostService {
         return PostDto.DetailResponse.toDto(post);
     }
 
-    public List<PostDto.Response> findByUserEmail(String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new EntityNotFoundException("유저를 찾을 수 없습니다: " + userEmail));
+    public List<PostDto.Response> findByUserEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("유저를 찾을 수 없습니다: " + email));
 
-        return postRepository.findByUserEmail(user.getEmail())
+        return user.getPostList()
                 .stream()
-                .map(PostDto.Response::toDto)
-                .toList();
+                .map(post -> PostDto.Response.builder()
+                        .title(post.getTitle())
+                        .id(post.getId())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

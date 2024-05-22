@@ -35,6 +35,6 @@ public class Post {
     // 연관관계 매핑 편의 메소드 **
     public void makeRelation(User user){
         this.user = user;
-        user.getPosts().add(this);
+        user.getPostList().add(this);
     }
 }

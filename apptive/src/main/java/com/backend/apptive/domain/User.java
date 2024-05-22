@@ -25,7 +25,7 @@ public class User {
 
     // new ArrayList 해주기 ** 프록시 문제 관련
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
 
     @Builder
     public User(String name, String email) {
