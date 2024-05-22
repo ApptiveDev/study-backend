@@ -21,7 +21,7 @@ public class PostService {
     @Autowired
     private final PostRepository postRepository;
     @Autowired
-    private  final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void create(PostDto.Request request) {
@@ -33,18 +33,21 @@ public class PostService {
                 .stream()
                 .map(PostDto.Response::toDto)
                 .toList();
+
         return posts;
     }
 
     public PostDto.DetailResponse findByPostId(Long postId) {
         Post post = postRepository.findByPostId(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시물 " + postId + "이 존재하지 않습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException(postId + " 게시물이 존재하지 않습니다."));
+
         return PostDto.DetailResponse.toDto(post);
     }
 
     public List<PostDto.Response> findByUserEmail(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("유저 " + userEmail +"가 존재하지 않습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException(userEmail +" 유저가 존재하지 않습니다."));
+
         return postRepository.findByUserEmail(user.getEmail())
                 .stream()
                 .map(PostDto.Response::toDto)

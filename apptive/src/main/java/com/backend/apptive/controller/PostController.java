@@ -1,9 +1,7 @@
 package com.backend.apptive.controller;
 
 import com.backend.apptive.dto.PostDto;
-import com.backend.apptive.dto.UserDto;
 import com.backend.apptive.service.PostService;
-import com.backend.apptive.service.UserService;
 import com.backend.apptive.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,15 +15,12 @@ import java.util.List;
 @RequestMapping("/post")
 public class PostController {
     private final PostService postService;
+    private final ApiUtils apiUtils;
+
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody PostDto.Request request) {
-        try {
-            postService.create(request);
-            return ResponseEntity.ok(ApiUtils.success("게시물이 생성되었습니다."));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ApiUtils.fail(HttpStatus.NOT_FOUND.value(), e.getMessage()));
-        }
+    public ResponseEntity<ApiUtils.ApiSuccess<String>> createPost(@RequestBody PostDto.Request request) {
+        postService.create(request);
+        return ResponseEntity.ok(ApiUtils.success("게시물이 생성되었습니다."));
     }
 
     @GetMapping

@@ -2,6 +2,7 @@ package com.backend.apptive.dto;
 
 import com.backend.apptive.domain.Post;
 import com.backend.apptive.domain.User;
+import com.backend.apptive.exception.ResourceNotFoundException;
 import com.backend.apptive.repository.UserRepository;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,8 @@ public class PostDto {
 
         public Post toEntity(UserRepository userRepository) {
             User user = userRepository.findByEmail(userEmail)
-                    .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
+                    .orElseThrow(() -> new
+                            ResourceNotFoundException(userEmail + " 유저가 존재하지 않습니다."));
 
             return Post.builder()
                     .user(user)
