@@ -4,7 +4,6 @@ import com.backend.apptive.dto.PostDto;
 import com.backend.apptive.service.PostService;
 import com.backend.apptive.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
