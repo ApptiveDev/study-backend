@@ -20,7 +20,7 @@ public class PostDto {
         public Post toEntity(UserRepository userRepository) {
             User user = userRepository.findByEmail(userEmail)
                     .orElseThrow(() -> new
-                            ResourceNotFoundException(userEmail + " 유저가 존재하지 않습니다."));
+                            ResourceNotFoundException("유저를 찾을 수 없습니다: " + userEmail));
 
             return Post.builder()
                     .user(user)

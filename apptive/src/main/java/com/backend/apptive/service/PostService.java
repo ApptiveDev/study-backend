@@ -39,14 +39,14 @@ public class PostService {
 
     public PostDto.DetailResponse findByPostId(Long postId) {
         Post post = postRepository.findByPostId(postId)
-                .orElseThrow(() -> new ResourceNotFoundException(postId + " 게시물이 존재하지 않습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다: " + postId));
 
         return PostDto.DetailResponse.toDto(post);
     }
 
     public List<PostDto.Response> findByUserEmail(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ResourceNotFoundException(userEmail +" 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("유저를 찾을 수 없습니다: " + userEmail));
 
         return postRepository.findByUserEmail(user.getEmail())
                 .stream()
