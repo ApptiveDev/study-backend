@@ -15,7 +15,7 @@ public class PostDto {
         private String title;
         private String content;
 
-        //2
+        // 2 - 수정함, DTO 단에는 Repository 들고오지 말자
         public Post toEntity(User user) {
             return Post.builder()
                     .user(user)

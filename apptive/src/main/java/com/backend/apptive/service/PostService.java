@@ -21,7 +21,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    //1 - 수정 완료
+    //1 서비스 단에서 레포지토리 접근 하기 - 수정 완료
     @Transactional
     public void create(PostDto.Request request) {
         User user = userRepository.findByEmail(request.getUserEmail())
@@ -39,9 +39,9 @@ public class PostService {
         return posts;
     }
 
-    public PostDto.DetailResponse findByPostId(Long postId) {
-        Post post = postRepository.findByPostId(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시물을 찾을 수 없습니다: " + postId));
+    public PostDto.DetailResponse findById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("게시물을 찾을 수 없습니다: " + id));
 
         return PostDto.DetailResponse.toDto(post);
     }

@@ -28,10 +28,10 @@ public class PostController {
                 .body(ApiUtils.success(postService.findAll()));
     }
 
-    @GetMapping("post/{postId}")
-    public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long postId) {
+    @GetMapping("post/{id}")
+    public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long id) {
         return ResponseEntity.ok()
-                .body(ApiUtils.success(postService.findByPostId(postId)));
+                .body(ApiUtils.success(postService.findById(id)));
     }
 
     @GetMapping("posts/users/{email}")
