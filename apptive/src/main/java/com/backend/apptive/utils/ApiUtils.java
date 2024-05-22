@@ -3,7 +3,9 @@ package com.backend.apptive.utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ApiUtils {
 
     public static <T> ApiSuccess<T> success(T response) {
@@ -28,5 +30,4 @@ public class ApiUtils {
         private final int errorCode;
         private final String message;
     }
-
 }

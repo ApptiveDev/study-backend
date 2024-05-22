@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody UserDto request) {
+    public ResponseEntity<?> addUser(@RequestBody UserDto.Request request) {
         try {
             userService.save(request);
             return ResponseEntity.ok(ApiUtils.success("유저가 생성되었습니다."));
@@ -28,15 +28,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiUtils.ApiSuccess<List<UserDto>>> findAllUser() {
-        List<UserDto> users = userService.findAll();
+    public ResponseEntity<ApiUtils.ApiSuccess<List<UserDto.Response>>> findAllUser() {
+        List<UserDto.Response> users = userService.findAll();
         return ResponseEntity.ok()
                 .body(ApiUtils.success(users));
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<ApiUtils.ApiSuccess<UserDto>> findUser(@PathVariable String email) {
-        UserDto user = userService.findByEmail(email);
+    public ResponseEntity<ApiUtils.ApiSuccess<UserDto.Response>> findUser(@PathVariable String email) {
+        UserDto.Response user = userService.findByEmail(email);
         return ResponseEntity.ok(ApiUtils.success(user));
     }
 
@@ -47,8 +47,8 @@ public class UserController {
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<ApiUtils.ApiSuccess<String>> updateUser(@PathVariable String email, @RequestBody UserDto request) {
-        UserDto user= userService.update(email, request);
+    public ResponseEntity<ApiUtils.ApiSuccess<String>> updateUser(@PathVariable String email, @RequestBody UserDto.Request request) {
+        userService.update(email, request);
         return ResponseEntity.ok(ApiUtils.success("이름이 변경되었습니다."));
     }
 }
