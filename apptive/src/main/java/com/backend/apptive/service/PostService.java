@@ -43,8 +43,7 @@ public class PostService {
     }
 
     public int NplusOne() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
+        return userRepository.findAll().stream()
                 .mapToInt(user -> user.getPosts().size())
                 .sum();
     }
