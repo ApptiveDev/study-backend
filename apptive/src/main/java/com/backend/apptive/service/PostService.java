@@ -42,12 +42,11 @@ public class PostService {
         return user.getPosts().stream().map(PostDto.Response::toDto).toList();
     }
 
-    public List<PostDto.Response> NplusOne() {
+    public int NplusOne() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .flatMap(user -> user.getPosts().stream())
-                .map(PostDto.Response::toDto)
-                .collect(Collectors.toList());
+                .mapToInt(user -> user.getPosts().size())
+                .sum();
     }
 }
 

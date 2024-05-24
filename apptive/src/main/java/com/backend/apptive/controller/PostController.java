@@ -30,7 +30,7 @@ public class PostController {
     }
 
     @GetMapping("/n-plus-one")
-    public ResponseEntity<List<PostDto.Response>> getAllPost() {
+    public ResponseEntity<?> getAllPostSize() {
         return ResponseEntity.ok(postService.NplusOne());
     }
 }
