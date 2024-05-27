@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/apptive.iml" filepath="$PROJECT_DIR$/.idea/modules/apptive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.backend.apptive.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.backend.apptive.main.iml" />
     </modules>
   </component>
 </project>

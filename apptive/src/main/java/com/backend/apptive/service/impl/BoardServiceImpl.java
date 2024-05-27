@@ -31,9 +31,10 @@ public class BoardServiceImpl implements BoardService {
     public BoardResponseDTO registerBoard(BoardDTO boardDTO) {
         User user = userRepository.findByEmail(boardDTO.getUserEmail())
                 .orElseThrow(()-> new UserNotFoundException("No user: "+boardDTO.getUserEmail()));
+
         Board board = new Board();
         board.setTitle(boardDTO.getTitle());
-        board.setContent(board.getContent());
+        board.setContent(boardDTO.getContent());
         board.setUser(user);
 
         Board savedBoard = boardRepository.save(board);
@@ -52,6 +53,7 @@ public class BoardServiceImpl implements BoardService {
                 .map(board -> BoardDTO.builder()
                         .title(board.getTitle())
                         .content(board.getContent())
+                        .userEmail(board.getUser().getEmail())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -62,6 +64,7 @@ public class BoardServiceImpl implements BoardService {
                 .map(board -> BoardDTO.builder()
                         .title(board.getTitle())
                         .content(board.getContent())
+                        .userEmail(board.getUser().getEmail())
                         .build())
                 .orElseThrow(()-> new BoardNotFoundException("No Board with: "+postId));
 
@@ -73,6 +76,8 @@ public class BoardServiceImpl implements BoardService {
         return user.getBoardList().stream()
                 .map(board -> BoardDTO.builder()
                         .title(board.getTitle())
+                        .content(board.getContent())
+                        .userEmail(board.getUser().getEmail())
                         .build())
                 .collect(Collectors.toList());
     }
