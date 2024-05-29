@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,6 +27,13 @@ public class UserController {
     private String getUserByEmail(@PathVariable String email){
         return userService.getUserByEmail(email).getName();
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<UserDTO>> getUserList(){
+        List<UserDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email){
         userService.deleteUserByEmail(email);

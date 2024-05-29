@@ -43,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
         responseDTO.setId(savedBoard.getId());
         responseDTO.setTitle(savedBoard.getTitle());
         responseDTO.setContent(savedBoard.getContent());
-        responseDTO.setUserEamil(user.getEmail());
+        responseDTO.setUserEmail(user.getEmail());
         return responseDTO;
     }
 
@@ -80,5 +80,18 @@ public class BoardServiceImpl implements BoardService {
                         .userEmail(board.getUser().getEmail())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public BoardResponseDTO updateUserById(Long boardId, String newUserEmail){
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(()-> new BoardNotFoundException("No Board with id: "+boardId));
+
+        User user = userRepository.findByEmail(newUserEmail)
+                .orElseThrow(()->new UserNotFoundException("No User with email: "+newUserEmail));
+
+        board.setUser(user);
+        Board updatedBoard = boardRepository.save(board);
+        return BoardResponseDTO.toDTO(updatedBoard);
     }
 }

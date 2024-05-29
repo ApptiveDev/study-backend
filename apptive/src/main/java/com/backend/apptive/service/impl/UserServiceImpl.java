@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    //POST
     @Override
     @Transactional
     public User registerUser(UserDTO userDTO) {
@@ -24,6 +29,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         return userRepository.save(user);
     }
+    //GET
     @Override
     public UserDTO getUserByEmail(String email){
         return userRepository.findByEmail(email)
@@ -33,6 +39,13 @@ public class UserServiceImpl implements UserService {
                         .build())
                 .orElseThrow(()->new UserNotFoundException("No User with: "+email));
     }
+    @Override
+    public List<UserDTO> getAllUsers(){
+        return userRepository.findAll().stream()
+                .map(UserDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     @Override
     @Transactional
     public void deleteUserByEmail(String email){

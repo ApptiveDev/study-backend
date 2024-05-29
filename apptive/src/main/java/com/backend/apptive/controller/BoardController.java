@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.ls.LSInput;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/board")
@@ -27,13 +28,22 @@ public class BoardController {
     public List<BoardDTO> getAllBoards(){
         return boardService.getAllBoards();
     }
-    @GetMapping("/{postId}")
-    public BoardDTO getBoardById(@PathVariable Long postId){
-        return boardService.getBoardById(postId);
+
+    @GetMapping("/{boardId}")
+    public BoardDTO getBoardById(@PathVariable Long boardId){
+        return boardService.getBoardById(boardId);
     }
+
     @GetMapping("/user/{email}")
     public List<BoardDTO> getBoardsByUserEmail(@PathVariable String email){
         return boardService.getBoardsByUserEmail(email);
+    }
+
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<BoardResponseDTO> updateUserEmailById(@PathVariable Long boardId,@RequestBody Map<String, Object> requestBody) {
+        String newUserEmail = (String) requestBody.get("newUserEmail");
+        BoardResponseDTO responseDTO = boardService.updateUserById(boardId,newUserEmail);
+        return ResponseEntity.ok(responseDTO);
     }
 
 }

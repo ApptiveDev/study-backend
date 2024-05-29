@@ -35,3 +35,12 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+//파라미터 못찾을때 에러 발생 대비
+compileJava {
+	options.compilerArgs << "-parameters"
+}
+
+compileTestJava {
+	options.compilerArgs << "-parameters"
+}
+
