@@ -1,5 +1,6 @@
 package com.backend.apptive.service;
 
+import com.backend.apptive.domain.User;
 import com.backend.apptive.dto.PostDto;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface PostService {
     List<PostDto.Response> findAll();
     PostDto.DetailResponse findById(Long id);
     List<PostDto.Response> findByUserEmail(String email);
+    List<PostDto.Response> NplusOne();
 }

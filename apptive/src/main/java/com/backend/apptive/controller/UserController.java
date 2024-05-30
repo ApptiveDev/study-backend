@@ -1,5 +1,6 @@
 package com.backend.apptive.controller;
 
+import com.backend.apptive.dto.PostDto;
 import com.backend.apptive.dto.UserDto;
 import com.backend.apptive.service.UserService;
 

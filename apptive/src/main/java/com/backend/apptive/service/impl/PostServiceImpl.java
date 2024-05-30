@@ -31,12 +31,10 @@ public class PostServiceImpl implements PostService {
     }
 
     public List<PostDto.Response> findAll() {
-        List<PostDto.Response> posts = postRepository.findAll()
+        return postRepository.findAll()
                 .stream()
                 .map(PostDto.Response::toDto)
                 .toList();
-
-        return posts;
     }
 
     public PostDto.DetailResponse findById(Long id) {
@@ -50,12 +48,19 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("유저를 찾을 수 없습니다: " + email));
 
-        return user.getPostList()
+        return user.getPosts()
                 .stream()
                 .map(post -> PostDto.Response.builder()
                         .title(post.getTitle())
                         .id(post.getId())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public List<PostDto.Response> NplusOne() {
+        return postRepository.findAllJoinFetch()
+                .stream()
+                .map(PostDto.Response::toDto)
+                .toList();
     }
 }

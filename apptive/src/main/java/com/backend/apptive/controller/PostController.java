@@ -1,5 +1,6 @@
 package com.backend.apptive.controller;
 
+import com.backend.apptive.domain.User;
 import com.backend.apptive.dto.PostDto;
 import com.backend.apptive.service.PostService;
 import com.backend.apptive.utils.ApiUtils;
@@ -37,5 +38,10 @@ public class PostController {
     public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findUserPosts(@PathVariable String email) {
         return ResponseEntity.ok()
                 .body(ApiUtils.success(postService.findByUserEmail(email)));
+    }
+
+    @GetMapping("/n-plus-one")
+    public ResponseEntity<List<PostDto.Response>> getAllPost() {
+        return ResponseEntity.ok(postService.NplusOne());
     }
 }
