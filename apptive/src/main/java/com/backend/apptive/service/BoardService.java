@@ -10,6 +10,6 @@ public interface BoardService {
     BoardResponseDTO registerBoard(BoardDTO boardDTO);
     List<BoardDTO> getAllBoards();
     BoardDTO getBoardById(Long postID);
-    List<BoardDTO> getBoardsByUserEmail(String email);
-    BoardResponseDTO updateUserById(Long boardId, String newUserMail);
+    List<BoardDTO> getBoardsByNameAndPhoneNumber(String userName, String phoneNumber);
+    BoardResponseDTO updateUserById(Long boardId, String newUserPhoneNumber);
 }

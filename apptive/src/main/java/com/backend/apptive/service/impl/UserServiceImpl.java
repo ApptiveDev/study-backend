@@ -25,19 +25,20 @@ public class UserServiceImpl implements UserService {
     public User registerUser(UserDTO userDTO) {
         User user = User.builder()
                 .name(userDTO.getName())
-                .email(userDTO.getEmail())
+                .phoneNumber(userDTO.getPhoneNumber())
                 .build();
         return userRepository.save(user);
     }
+
     //GET
     @Override
-    public UserDTO getUserByEmail(String email){
-        return userRepository.findByEmail(email)
+    public UserDTO getUserByPhoneNumber(String phoneNumber){
+        return userRepository.findByPhoneNumber(phoneNumber)
                 .map(user -> UserDTO.builder()
                         .name(user.getName())
-                        .email(user.getEmail())
+                        .phoneNumber(user.getPhoneNumber())
                         .build())
-                .orElseThrow(()->new UserNotFoundException("No User with: "+email));
+                .orElseThrow(()->new UserNotFoundException("No User with: "+phoneNumber));
     }
     @Override
     public List<UserDTO> getAllUsers(){
@@ -48,19 +49,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUserByEmail(String email){
-        userRepository.deleteByEmail(email);
+    public void deleteUserByPhoneNumber(String phoneNumber){
+        userRepository.deleteByPhoneNumber(phoneNumber);
     }
     @Override
     @Transactional
-    public  UserDTO updateUserByEmail(String email, String newName){
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(()->new UserNotFoundException("no user with"+email));
+    public  UserDTO updateUserByPhoneNumber(String phoneNumber, String newName){
+        User user = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(()->new UserNotFoundException("no user with"+phoneNumber));
         user.setName(newName);
         User updatedUser = userRepository.save(user);
         return UserDTO.builder()
                 .name(user.getName())
-                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
     }
 }

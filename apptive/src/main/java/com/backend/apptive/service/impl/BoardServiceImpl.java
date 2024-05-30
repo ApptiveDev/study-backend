@@ -29,20 +29,20 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public BoardResponseDTO registerBoard(BoardDTO boardDTO) {
-        User user = userRepository.findByEmail(boardDTO.getUserEmail())
-                .orElseThrow(()-> new UserNotFoundException("No user: "+boardDTO.getUserEmail()));
+        User user = userRepository.findByPhoneNumber(boardDTO.getUserPhoneNumber())
+                .orElseThrow(()-> new UserNotFoundException("No user: "+boardDTO.getUserPhoneNumber()));
 
         Board board = new Board();
-        board.setTitle(boardDTO.getTitle());
-        board.setContent(boardDTO.getContent());
+        board.setStatus(boardDTO.getStatus());
+        board.setDate(boardDTO.getDate());
         board.setUser(user);
 
         Board savedBoard = boardRepository.save(board);
 
         BoardResponseDTO responseDTO = new BoardResponseDTO();
-        responseDTO.setTitle(savedBoard.getTitle());
-        responseDTO.setContent(savedBoard.getContent());
-        responseDTO.setUserEmail(user.getEmail());
+        responseDTO.setStatus(savedBoard.getStatus());
+        responseDTO.setDate(savedBoard.getDate());
+        responseDTO.setUserPhoneNumber(user.getPhoneNumber());
         return responseDTO;
     }
 
@@ -50,9 +50,9 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardDTO> getAllBoards(){
         return boardRepository.findAll().stream()
                 .map(board -> BoardDTO.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .userEmail(board.getUser().getEmail())
+                        .status(board.getStatus())
+                        .date(board.getDate())
+                        .userPhoneNumber(board.getUser().getPhoneNumber())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -61,33 +61,31 @@ public class BoardServiceImpl implements BoardService {
     public  BoardDTO getBoardById(Long postId){
         return boardRepository.findById(postId)
                 .map(board -> BoardDTO.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .userEmail(board.getUser().getEmail())
+                        .status(board.getStatus())
+                        .date(board.getDate())
+                        .userPhoneNumber(board.getUser().getPhoneNumber())
                         .build())
                 .orElseThrow(()-> new BoardNotFoundException("No Board with: "+postId));
     }
 
-    public List<BoardDTO> getBoardsByUserEmail(String email){
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new UserNotFoundException("No Board with: "+email));
+    public List<BoardDTO> getBoardsByNameAndPhoneNumber(String name, String phoneNumber){
+        User user = userRepository.findByNameAndPhoneNumber(name, phoneNumber)
+                .orElseThrow(()-> new UserNotFoundException("No Board with: "+name+" "+phoneNumber));
         return user.getBoardList().stream()
                 .map(board -> BoardDTO.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .userEmail(board.getUser().getEmail())
+                        .status(board.getStatus())
+                        .date(board.getDate())
+                        .userPhoneNumber(board.getUser().getPhoneNumber())
                         .build())
                 .collect(Collectors.toList());
     }
 
     @Override
-    public BoardResponseDTO updateUserById(Long boardId, String newUserEmail){
+    public BoardResponseDTO updateUserById(Long boardId, String newUserphoneNumber){
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(()-> new BoardNotFoundException("No Board with id: "+boardId));
-
-        User user = userRepository.findByEmail(newUserEmail)
-                .orElseThrow(()->new UserNotFoundException("No User with email: "+newUserEmail));
-
+        User user = userRepository.findByPhoneNumber(newUserphoneNumber)
+                .orElseThrow(()->new UserNotFoundException("No User with phoneNumber: "+newUserphoneNumber));
         board.setUser(user);
         Board updatedBoard = boardRepository.save(board);
         return BoardResponseDTO.toDTO(updatedBoard);

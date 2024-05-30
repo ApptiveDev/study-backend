@@ -22,22 +22,27 @@ public class BoardController {
         BoardResponseDTO responseDTO = boardService.registerBoard(boardDTO);
         return ResponseEntity.ok(responseDTO);
     }
+
+    //GET
     @GetMapping
     public List<BoardDTO> getAllBoards(){
         return boardService.getAllBoards();
     }
     @GetMapping("/{boardId}")
-    public BoardDTO getBoardById(@PathVariable (name = "boardId") Long boardId){
+    public BoardDTO getBoardById(@PathVariable("boardId") Long boardId){
         return boardService.getBoardById(boardId);
     }
-    @GetMapping("/user/{email}")
-    public List<BoardDTO> getBoardsByUserEmail(@PathVariable String email){
-        return boardService.getBoardsByUserEmail(email);
+
+    @GetMapping("/{name}/{phoneNumber}")
+    public List<BoardDTO> getBoardsByUserPhoneNumber(@PathVariable("name") String name, @PathVariable("phoneNumber") String phoneNumber){
+        return boardService.getBoardsByNameAndPhoneNumber(name, phoneNumber);
     }
+
+    //Patch
     @PatchMapping("/{boardId}")
-    public ResponseEntity<BoardResponseDTO> updateUserEmailById(@PathVariable Long boardId,@RequestBody Map<String, Object> requestBody) {
-        String newUserEmail = (String) requestBody.get("newUserEmail");
-        BoardResponseDTO responseDTO = boardService.updateUserById(boardId,newUserEmail);
+    public ResponseEntity<BoardResponseDTO> updateUserPhoneNumberById(@PathVariable Long boardId,@RequestBody Map<String, Object> requestBody) {
+        String newUserPhoneNumber = (String) requestBody.get("newUserPhoneNumber");
+        BoardResponseDTO responseDTO = boardService.updateUserById(boardId,newUserPhoneNumber);
         return ResponseEntity.ok(responseDTO);
     }
 }

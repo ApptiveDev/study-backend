@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -16,8 +18,8 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String title;
-    private String content;
+    private String status;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

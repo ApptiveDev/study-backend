@@ -21,23 +21,25 @@ public class UserController {
     public User registerUser(@RequestBody UserDTO userDTO){
         return userService.registerUser(userDTO);
     }
-    @GetMapping("/{email}")
-    private String getUserByEmail(@PathVariable String email){
-        return userService.getUserByEmail(email).getName();
-    }
     @GetMapping("")
     public ResponseEntity<List<UserDTO>> getUserList(){
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-    @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email){
-        userService.deleteUserByEmail(email);
+
+    @GetMapping("/{phonNumber}")
+    private String getUserNameAndphoneNumber(@PathVariable("name") String name){
+        return userService.getUserByPhoneNumber(name).getName();
+    }
+
+    @DeleteMapping("/{phoneNumber}")
+    public ResponseEntity<Void> deleteUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber){
+        userService.deleteUserByPhoneNumber(phoneNumber);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/{email}")
-    public ResponseEntity<UserDTO> updateUserByEmail(@PathVariable String email,@RequestBody UserDTO userDTO){
-        UserDTO updatedUser = userService.updateUserByEmail(email,userDTO.getName());
+    @PutMapping("/{phoneNumber}")
+    public ResponseEntity<UserDTO> updateUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber,@RequestBody UserDTO userDTO){
+        UserDTO updatedUser = userService.updateUserByPhoneNumber(phoneNumber,userDTO.getName());
         return ResponseEntity.ok(updatedUser);
     }
 }

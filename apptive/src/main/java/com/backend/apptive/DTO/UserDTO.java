@@ -13,19 +13,19 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     private Long id;
     private String name;
-    private String email;
+    private String phoneNumber;
 
     public static UserDTO fromEntity(User user){
         return UserDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
     }
     public User toEntity(){
         return User.builder()
                 .name(this.name)
-                .email(this.email)
+                .phoneNumber(this.phoneNumber)
                 .id(this.id)
                 .build();
     }
