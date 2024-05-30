@@ -11,14 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class BoardResponseDTO {
-    private Long id;
     private String title;
     private String content;
     private String userEmail;
 
     public static BoardResponseDTO toDTO(Board board){
         BoardResponseDTO dto = new BoardResponseDTO();
-        dto.setId(board.getId());
         dto.setTitle(board.getTitle());
         dto.setContent(board.getContent());
         dto.setUserEmail(board.getUser().getEmail());

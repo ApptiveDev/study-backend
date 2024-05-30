@@ -17,33 +17,27 @@ import java.util.Map;
 public class BoardController {
     @Autowired
     private BoardService boardService;
-
     @PostMapping("/register")
     public ResponseEntity<BoardResponseDTO> registerBoard(@RequestBody BoardDTO boardDTO){
         BoardResponseDTO responseDTO = boardService.registerBoard(boardDTO);
         return ResponseEntity.ok(responseDTO);
     }
-
     @GetMapping
     public List<BoardDTO> getAllBoards(){
         return boardService.getAllBoards();
     }
-
     @GetMapping("/{boardId}")
-    public BoardDTO getBoardById(@PathVariable Long boardId){
+    public BoardDTO getBoardById(@PathVariable (name = "boardId") Long boardId){
         return boardService.getBoardById(boardId);
     }
-
     @GetMapping("/user/{email}")
     public List<BoardDTO> getBoardsByUserEmail(@PathVariable String email){
         return boardService.getBoardsByUserEmail(email);
     }
-
     @PatchMapping("/{boardId}")
     public ResponseEntity<BoardResponseDTO> updateUserEmailById(@PathVariable Long boardId,@RequestBody Map<String, Object> requestBody) {
         String newUserEmail = (String) requestBody.get("newUserEmail");
         BoardResponseDTO responseDTO = boardService.updateUserById(boardId,newUserEmail);
         return ResponseEntity.ok(responseDTO);
     }
-
 }

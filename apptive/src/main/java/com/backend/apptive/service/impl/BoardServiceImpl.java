@@ -40,7 +40,6 @@ public class BoardServiceImpl implements BoardService {
         Board savedBoard = boardRepository.save(board);
 
         BoardResponseDTO responseDTO = new BoardResponseDTO();
-        responseDTO.setId(savedBoard.getId());
         responseDTO.setTitle(savedBoard.getTitle());
         responseDTO.setContent(savedBoard.getContent());
         responseDTO.setUserEmail(user.getEmail());
@@ -67,7 +66,6 @@ public class BoardServiceImpl implements BoardService {
                         .userEmail(board.getUser().getEmail())
                         .build())
                 .orElseThrow(()-> new BoardNotFoundException("No Board with: "+postId));
-
     }
 
     public List<BoardDTO> getBoardsByUserEmail(String email){

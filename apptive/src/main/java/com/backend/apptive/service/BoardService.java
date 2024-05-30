@@ -11,6 +11,5 @@ public interface BoardService {
     List<BoardDTO> getAllBoards();
     BoardDTO getBoardById(Long postID);
     List<BoardDTO> getBoardsByUserEmail(String email);
-
     BoardResponseDTO updateUserById(Long boardId, String newUserMail);
 }

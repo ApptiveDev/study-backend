@@ -17,23 +17,19 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-
     @PostMapping("/register")
     public User registerUser(@RequestBody UserDTO userDTO){
         return userService.registerUser(userDTO);
     }
-
     @GetMapping("/{email}")
     private String getUserByEmail(@PathVariable String email){
         return userService.getUserByEmail(email).getName();
     }
-
     @GetMapping("")
     public ResponseEntity<List<UserDTO>> getUserList(){
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email){
         userService.deleteUserByEmail(email);
@@ -44,5 +40,4 @@ public class UserController {
         UserDTO updatedUser = userService.updateUserByEmail(email,userDTO.getName());
         return ResponseEntity.ok(updatedUser);
     }
-
 }
