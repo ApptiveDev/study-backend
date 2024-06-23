@@ -1,10 +1,10 @@
 package com.backend.apptive.controller;
 
+import com.backend.apptive.domain.User;
 import com.backend.apptive.dto.PostDto;
 import com.backend.apptive.service.PostService;
 import com.backend.apptive.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,35 +12,36 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
 public class PostController {
-    private final PostService postService;
-    private final ApiUtils apiUtils;
 
-    @PostMapping
+    private final PostService postService;
+
+    @PostMapping("/post")
     public ResponseEntity<ApiUtils.ApiSuccess<String>> createPost(@RequestBody PostDto.Request request) {
         postService.create(request);
         return ResponseEntity.ok(ApiUtils.success("게시물이 생성되었습니다."));
     }
 
-    @GetMapping
+    @GetMapping("/posts")
     public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findAllPosts() {
-        List<PostDto.Response> posts = postService.findAll();
         return ResponseEntity.ok()
-                .body(ApiUtils.success(posts));
+                .body(ApiUtils.success(postService.findAll()));
     }
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long postId) {
-        PostDto.DetailResponse post = postService.findByPostId(postId);
+    @GetMapping("post/{id}")
+    public ResponseEntity<ApiUtils.ApiSuccess<PostDto.DetailResponse>> findPost(@PathVariable Long id) {
         return ResponseEntity.ok()
-                .body(ApiUtils.success(post));
+                .body(ApiUtils.success(postService.findById(id)));
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("posts/users/{email}")
     public ResponseEntity<ApiUtils.ApiSuccess<List<PostDto.Response>>> findUserPosts(@PathVariable String email) {
-        List<PostDto.Response> posts = postService.findByUserEmail(email);
         return ResponseEntity.ok()
-                .body(ApiUtils.success(posts));
+                .body(ApiUtils.success(postService.findByUserEmail(email)));
+    }
+
+    @GetMapping("/n-plus-one")
+    public ResponseEntity<List<PostDto.Response>> getAllPost() {
+        return ResponseEntity.ok(postService.NplusOne());
     }
 }

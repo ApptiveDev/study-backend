@@ -21,3 +21,6 @@
 ### 추가 목표
 
 1. 유저를 삭제하면 유저가 삭제한 게시글을 함께 삭제하기. (**orphanRemoval 옵션)**
+
+### N + 1 문제 해결
+- [Fetch join](https://secretive-clipper-af5.notion.site/N-1-fetch-join-999a97b429b140a794ffa4a42bc118ae)
