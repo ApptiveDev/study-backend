@@ -1,4 +1,4 @@
-package apptive.study.dto;
+package apptive.study.dto.response;
 
 import apptive.study.domain.Member;
 
